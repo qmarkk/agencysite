@@ -1,0 +1,833 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Кадровое агентство «Москва» — подбор персонала</title>
+    <!-- Подключаем общие стили проекта -->
+    <link rel="stylesheet" href="globals.css">
+    <link rel="stylesheet" href="styleguide.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Глобальные анимации появления */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
+        }
+        .fade-up.visible {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        /* Карточки и кнопки */
+        .card, .element-9, .element-10, .element-11, .service-card {
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+        .card:hover, .element-9:hover, .element-10:hover, .element-11:hover, .service-card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 20px 30px -12px rgba(0, 0, 0, 0.15);
+        }
+        /* Кнопки */
+        .btn-primary, .button, .button-2, .button-3, .button-4, .button-5 {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+        }
+        .btn-primary:hover, .button:hover, .button-2:hover, .button-3:hover, .button-4:hover, .button-5:hover {
+            transform: translateY(-3px);
+            filter: brightness(1.05);
+            box-shadow: 0 8px 20px rgba(17, 105, 176, 0.25);
+        }
+        /* Toast-уведомление */
+        .toast-notify {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #2c7a4d;
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            font-size: 15px;
+            z-index: 10000;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+            animation: slideUp 0.3s ease;
+            font-family: 'Open Sans', Helvetica;
+        }
+        .toast-notify.error {
+            background: #c0392b;
+        }
+        @keyframes slideUp {
+            0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+            100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+        }
+
+        /* ========== ПЕРЕРАБОТАННЫЙ БЛОК "СВЯЖИТЕСЬ С НАМИ" ========== */
+        .screen .view {
+            position: absolute;
+            top: 4171px;
+            left: 315px;
+            width: 1310px;
+            height: 661px;
+        }
+        .screen .bg {
+            width: 1290px;
+            height: 661px;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            position: absolute;
+            top: 0;
+            left: 0;
+        }
+        .contact-form-wrapper {
+            position: absolute;
+            top: 60px;
+            left: 560px;
+            width: 680px;
+            background: #fff;
+            border-radius: 10px;
+            border: 1.5px solid rgba(39,39,39,0.05);
+            padding: 40px 30px 30px;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.03);
+        }
+        .contact-form-wrapper h3 {
+            font-family: 'Open Sans', Helvetica;
+            font-weight: 700;
+            font-size: 30px;
+            color: #545454;
+            text-align: center;
+            margin-bottom: 30px;
+        }
+        .form-row {
+            margin-bottom: 20px;
+        }
+        .form-row input,
+        .form-row textarea {
+            width: 100%;
+            padding: 14px 16px;
+            font-family: 'Open Sans', Helvetica;
+            font-size: 14px;
+            border: 1.5px solid rgba(84,84,84,0.2);
+            border-radius: 8px;
+            transition: all 0.2s;
+            background: #fff;
+        }
+        .form-row input:focus,
+        .form-row textarea:focus {
+            outline: none;
+            border-color: #1169b0;
+            box-shadow: 0 0 0 3px rgba(17,105,176,0.1);
+        }
+        .form-row textarea {
+            min-height: 100px;
+            resize: vertical;
+        }
+        .double-row {
+            display: flex;
+            gap: 20px;
+        }
+        .double-row .form-row {
+            flex: 1;
+        }
+        .submit-btn {
+            display: flex;
+            justify-content: center;
+            margin-top: 30px;
+        }
+        .submit-btn button {
+            background: #1169b0;
+            border: none;
+            padding: 12px 40px;
+            font-family: 'Open Sans', Helvetica;
+            font-weight: 600;
+            font-size: 14px;
+            color: #fff;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .submit-btn button:hover {
+            background: #0e558f;
+            transform: translateY(-2px);
+        }
+
+        /* Модальное окно для заявки */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10001;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.3s ease;
+        }
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+        .modal-window {
+            background: #fff;
+            border-radius: 16px;
+            width: 90%;
+            max-width: 480px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+            transform: scale(0.9);
+            transition: transform 0.2s ease;
+        }
+        .modal-overlay.active .modal-window {
+            transform: scale(1);
+        }
+        .modal-window h4 {
+            font-family: 'Open Sans', Helvetica;
+            font-weight: 700;
+            font-size: 24px;
+            color: #1169b0;
+            margin-bottom: 20px;
+            text-align: center;
+        }
+        .modal-buttons {
+            display: flex;
+            justify-content: flex-end;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .modal-buttons button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            font-family: 'Open Sans', Helvetica;
+            font-weight: 600;
+            cursor: pointer;
+        }
+        .modal-buttons .cancel {
+            background: #e0e0e0;
+            color: #333;
+        }
+        .modal-buttons .send {
+            background: #1169b0;
+            color: #fff;
+        }
+
+        /* ========== КАРУСЕЛЬ ДЛЯ УСЛУГ (6 карточек) ========== */
+        .view-5 {
+            position: relative;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-top: 50px;
+            width: 100%;
+        }
+        .services-scroll-container {
+            overflow-x: auto;
+            scroll-behavior: smooth;
+            white-space: nowrap;
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: thin;
+            scrollbar-color: #1169b0 #e0e0e0;
+            flex: 1;
+            display: flex;
+            gap: 26px;
+            padding: 10px 0;
+        }
+        .services-scroll-container::-webkit-scrollbar {
+            height: 6px;
+        }
+        .services-scroll-container::-webkit-scrollbar-track {
+            background: #e0e0e0;
+            border-radius: 10px;
+        }
+        .services-scroll-container::-webkit-scrollbar-thumb {
+            background: #1169b0;
+            border-radius: 10px;
+        }
+        /* Общий стиль для всех карточек услуг */
+        .service-card {
+            display: inline-block !important;
+            width: 374px;
+            height: 385px;
+            margin: 0 !important;
+            vertical-align: top;
+            flex-shrink: 0;
+            position: relative;
+            background: #fff;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+        .service-card .bg-card {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: #f9f9f9;
+            border-radius: 10px;
+            z-index: 0;
+        }
+        .service-card .card-img {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            width: calc(100% - 20px);
+            height: 180px;
+            object-fit: cover;
+            border-radius: 8px;
+            z-index: 1;
+        }
+        .service-card .card-title {
+            position: absolute;
+            top: 207px;
+            left: 20px;
+            font-weight: 700;
+            font-size: 20px;
+            color: #545454;
+            z-index: 2;
+        }
+        .service-card .card-title.blue {
+            color: #1169b0;
+        }
+        .service-card .card-desc {
+            position: absolute;
+            top: 241px;
+            left: 20px;
+            width: calc(100% - 40px);
+            font-size: 13px;
+            line-height: 1.5;
+            color: #545454;
+            opacity: 0.7;
+            z-index: 2;
+        }
+        /* Стрелки */
+        .arrow-left, .arrow-right {
+            width: 50px;
+            height: 50px;
+            cursor: pointer;
+            transition: transform 0.2s, opacity 0.2s;
+            flex-shrink: 0;
+        }
+        .arrow-left:hover, .arrow-right:hover {
+            transform: scale(1.1);
+            opacity: 0.8;
+        }
+        .view-5 .arrow-left,
+        .view-5 .arrow-right {
+            margin-top: 0 !important;
+            margin-left: 0 !important;
+        }
+        @media (max-width: 1024px) {
+            .service-card {
+                width: 320px;
+                height: auto;
+                min-height: 385px;
+            }
+            .services-scroll-container {
+                gap: 16px;
+            }
+        }
+
+        /* FAQ стили */
+        .faq .group {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+        .quest, .long-questr {
+            position: relative;
+            background: #ffffff;
+            border: 1.5px solid rgba(84, 84, 84, 0.1);
+            border-radius: 12px;
+            padding: 18px 24px 18px 56px;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-bottom: 0 !important;
+            width: 100%;
+            height: auto !important;
+            min-height: auto;
+        }
+        .quest .rectangle, .quest .rectangle-2,
+        .long-questr .back, .long-questr .rectangle-2 {
+            display: none;
+        }
+        .quest .img, .long-questr .arrow-2 {
+            position: absolute;
+            right: 20px;
+            top: 24px;
+            width: 20px;
+            height: 20px;
+            transition: transform 0.2s;
+        }
+        .text-wrapper-16, .text-wrapper-17 {
+            position: absolute;
+            left: 20px;
+            top: 18px;
+            font-size: 21px;
+            font-weight: 600;
+            color: #5896c8;
+        }
+
+        .text-wrapper-15 {
+            position: static !important;
+            width: auto !important;
+            font-size: 18px !important;
+            font-weight: 600 !important;
+            line-height: 1.4 !important;
+            color: #545454;
+            margin-right: 30px;
+            display: block;
+        }
+        .faq-answer {
+            margin-top: 16px;
+            padding: 16px 20px;
+            background: #f8fafc;
+            border-radius: 10px;
+            font-size: 14px;
+            line-height: 1.5;
+            color: #2c3e50;
+            border-left: 3px solid #1169b0;
+            display: none;
+        }
+        /* Выпадающее меню */
+        .nav-dropdown {
+            position: relative;
+            display: inline-flex;
+            align-items: center;
+            height: 100%;
+            cursor: pointer;
+        }
+        .nav-submenu {
+            display: none;
+            position: absolute;
+            top: 100%;
+            left: 0;
+            background: #fff;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.15);
+            min-width: 220px;
+            z-index: 9999;
+            border-top: 3px solid #1169b0;
+            border-radius: 0 0 6px 6px;
+        }
+        .nav-dropdown:hover .nav-submenu {
+            display: block;
+        }
+        .nav-submenu a {
+            display: block;
+            padding: 13px 20px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #545454;
+            text-decoration: none;
+            border-bottom: 1px solid #f0f0f0;
+            font-family: 'Open Sans', Helvetica;
+            white-space: nowrap;
+        }
+        .nav-submenu a:last-child { border-bottom: none; }
+        .nav-submenu a:hover {
+            background: #1169b0;
+            color: #fff;
+        }
+        .nav-dropdown::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 0;
+            width: 100%;
+            height: 10px;
+            background: transparent;
+            z-index: 1;
+        }
+        @media (max-width: 768px) {
+            .toast-notify { width: 90%; text-align: center; }
+            .quest, .long-questr { padding: 14px 20px 14px 48px; }
+            .text-wrapper-15 { font-size: 16px !important; }
+            .contact-form-wrapper { padding: 20px; }
+            .double-row { flex-direction: column; gap: 0; }
+        }
+    </style>
+</head>
+<body>
+<div class="screen">
+    <!-- БЛОК "СВЯЖИТЕСЬ С НАМИ" (форма) -->
+    <div class="view">
+        <div class="bg"></div>
+        <div class="contact-form-wrapper">
+            <h3>Свяжитесь с нами</h3>
+            <form id="contactForm">
+                <div class="form-row">
+                    <input type="text" id="fioInput" placeholder="ФИО" required>
+                </div>
+                <div class="double-row">
+                    <div class="form-row">
+                        <input type="email" id="emailInput" placeholder="Email" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="tel" id="phoneInput" placeholder="+7 (___) ___-__-__" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <textarea id="commentInput" placeholder="Комментарий..." required></textarea>
+                </div>
+                <div class="submit-btn">
+                    <button type="button" id="submitFeedbackBtn">Отправить</button>
+                </div>
+            </form>
+        </div>
+
+        <!-- Контактная информация справа (без изменений) -->
+        <div class="text-wrapper-7">5157746205304</div>
+        <div class="text-wrapper-8">ОГРН:</div>
+        <div class="text-wrapper-9">9701027110</div>
+        <div class="text-wrapper-10">ИНН:</div>
+        <p class="element">Москва , ул. Кировоградская 9к4 <br>(ТЦ Южный)</p>
+        <img class="map" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/map.svg" alt="map">
+        <div class="text-wrapper-11">kadrovoe_agentstvo38@mail.ru</div>
+        <img class="envelope" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/envelope.svg" alt="email">
+        <p class="p">8 (999) 123 45 67</p>
+        <img class="phone" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone.svg" alt="phone">
+        <p class="element-2">Понедельник-пятница: с 09:00 до 19:00 <br>Суббота: с 10:00 до 18:00 <br>Воскресенье: выходной</p>
+        <div class="text-wrapper-12">График работ:</div>
+        <div class="text-wrapper-13">Кадровое агенство<br>“Москва”</div>
+    </div>
+
+    <!-- FAQ БЛОК -->
+    <div class="faq">
+        <div class="div-wrapper"><div class="text-wrapper-14">Faq</div></div>
+        <img class="artboard" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/artboard-1-1.svg" alt="faq">
+        <div class="group">
+            <div class="quest"><div class="text-wrapper-16">1)</div><div class="text-wrapper-15">Как определить стоимость услуг</div><img class="img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/arrow-2.svg"><div class="faq-answer">Стоимость подбора рассчитывается индивидуально, исходя из сложности вакансии, срочности и уровня специалиста. Позвоните — проконсультируем бесплатно.</div></div>
+            <div class="long-questr"><div class="text-wrapper-17">2)</div><p class="text-wrapper-15">Какие виды гарантии по найму персонала?</p><img class="arrow-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/arrow-1.png"><div class="faq-answer">Гарантия бесплатной замены сотрудника в течение 1–3 месяцев, все условия в договоре.</div></div>
+            <div class="quest"><div class="text-wrapper-16">3)</div><p class="text-wrapper-15">Как вы нанимаете сотрудников?</p><img class="img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/arrow-2.svg"><div class="faq-answer">Профессиональные базы резюме, соцсети, ассессмент-центры и интервью с HR-экспертами.</div></div>
+            <div class="quest"><div class="text-wrapper-16">4)</div><div class="text-wrapper-15">Как происходит оплата?</div><img class="img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/arrow-2.svg"><div class="faq-answer">Работаем с НДС и без. Постоплата по факту выхода сотрудника. Гибкая система скидок.</div></div>
+        </div>
+    </div>
+
+    <!-- ПРЕИМУЩЕСТВА И ОПИСАНИЕ -->
+    <div class="view-2">
+        <img class="bg-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/bg-img.png">
+        <img class="image" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/--------.png">
+        <p class="text-wrapper-18">Наша компания — признанный эксперт в решении кадровых вопросов на территории РФ.</p>
+        <div class="points"><img class="question" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/question.svg"><p class="text-wrapper-19">Избавить ваше предприятие от хлопот по поиску временных и постоянных сотрудников;</p></div>
+        <div class="points-2"><img class="question" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/question.svg"><p class="text-wrapper-19">Дать соискателю возможность найти работу , будь то студент или профессионал.</p></div>
+        <div class="text-wrapper-20">Для нас важно:</div>
+        <div class="view-3"><div class="h">Кадровое агентство «Москва</div><p class="h-2">Быстрый и эффективный подбор персонала</p></div>
+    </div>
+
+    <!-- 6 ПРЕИМУЩЕСТВ -->
+    <div class="div-2">
+        <img class="bg-image" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/bg-image.png">
+        <div class="element-3 fade-up"><p class="div-3">Подбор персонала с соблюдением ТК РФ. Компания-подрядчик несет налоговую и страховую ответственность.</p><div class="text-wrapper-21">Экономия ресурсов</div><div class="frame"></div><img class="img-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/economy-1.svg"><div class="frame-2"></div></div>
+        <div class="element-4 fade-up"><p class="div-3"><span class="span">Вы можете воспользоваться </span><span class="text-wrapper-22">услугами компании</span><span class="span"> и нанять сотрудников на постоянную или временную работу.</span></p><div class="text-wrapper-21">Возможность найти недостающие кадры</div><div class="frame"></div><img class="img-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/company-1.svg"><div class="frame-2"></div></div>
+        <div class="element-5 fade-up"><p class="div-3">Подбор персонала с соблюдением ТК РФ. Компания-подрядчик несет ответственность.</p><div class="text-wrapper-21">Минимизация рисков</div><div class="frame"></div><img class="img-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/like-1.svg"><div class="frame-2"></div></div>
+        <div class="element-6 fade-up"><p class="div-3">Гарантируем исполнительность персонала и соответствие требованиям. Заключаем договор.</p><div class="text-wrapper-21">Качественный подбор</div><div class="frame"></div><img class="img-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/quality-1.svg"><div class="frame-3"></div></div>
+        <div class="element-7 fade-up"><p class="div-3">Специалисты проанализируют бизнес-процессы и особенности предприятия.</p><div class="text-wrapper-21">Индивидуальный подход</div><div class="frame"></div><img class="img-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/hundred-1.svg"><div class="frame-3"></div></div>
+        <div class="element-8 fade-up"><p class="div-3">Применяем новейшие маркетинговые инструменты в сфере HR и воронки продаж.</p><div class="text-wrapper-21">Новые технологии</div><div class="frame"></div><img class="img-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/technology-1.svg"><div class="frame-3"></div></div>
+        <div class="text-wrapper-23">Преимущества работы с нами:</div>
+    </div>
+
+    <!-- УСЛУГИ КАДРОВОГО АГЕНТСТВА (6 карточек с прокруткой) -->
+    <div class="view-4">
+        <div class="text-wrapper-24">Услуги кадрового агентства</div>
+        <p class="text-wrapper-25">Делегируйте задачи найма персонала с гарантией результата:</p>
+        <img class="rectangle-3" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/rectangle-1150.png">
+        <div class="view-5">
+            <img class="arrow-left" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/arrow-left.png" alt="arrow-left">
+            <div class="services-scroll-container" id="servicesScroll">
+                <!-- Карточка 1: Аутсорсинг -->
+                <div class="service-card">
+                    <div class="bg-card"></div>
+                    <img class="card-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/image.png" alt="outsourcing">
+                    <div class="card-title">Кадровый аутсорсинг</div>
+                    <div class="card-desc">предоставим линейный персонал и квалифицированных специалистов, поможем вашей компании в часы нагрузки и при выполнении рутинных задач</div>
+                </div>
+                <!-- Карточка 2: Аутстаффинг -->
+                <div class="service-card">
+                    <div class="bg-card"></div>
+                    <img class="card-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/image-1.png" alt="outstaffing">
+                    <div class="card-title">Аутстаффинг персонала</div>
+                    <div class="card-desc">даем возможность уменьшить затраты на содержание персонала, сохраняя важные для вас кадры путем перевода в свой штат</div>
+                </div>
+                <!-- Карточка 3: Рекрутинг -->
+                <div class="service-card">
+                    <div class="bg-card"></div>
+                    <img class="card-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/image-2.png" alt="recruiting">
+                    <div class="card-title blue">Рекрутинг</div>
+                    <div class="card-desc">найдем сотрудников с помощью собственных ресурсов и базы вакансий, которые идеально подходят для вашей компании</div>
+                </div>
+                <!-- Карточка 4: Консалтинг -->
+                <div class="service-card">
+                    <div class="bg-card"></div>
+                    <img class="card-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/company-1.svg" alt="consulting" style="object-fit: contain; background: #eef2f8; padding: 20px;">
+                    <div class="card-title">HR-консалтинг</div>
+                    <div class="card-desc">анализ бизнес-процессов, аудит кадрового учета, разработка стратегии подбора и мотивации персонала</div>
+                </div>
+                <!-- Карточка 5: Разработка сайта (HR-платформа) -->
+                <div class="service-card">
+                    <div class="bg-card"></div>
+                    <img class="card-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/technology-1.svg" alt="website" style="object-fit: contain; background: #eef2f8; padding: 20px;">
+                    <div class="card-title">HR-платформа</div>
+                    <div class="card-desc">создадим личный кабинет для заказчиков, автоматизируем процессы найма и отчетности</div>
+                </div>
+                <!-- Карточка 6: Рекламное сопровождение -->
+                <div class="service-card">
+                    <div class="bg-card"></div>
+                    <img class="card-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/economy-1.svg" alt="marketing" style="object-fit: contain; background: #eef2f8; padding: 20px;">
+                    <div class="card-title">Рекламное сопровождение</div>
+                    <div class="card-desc">размещение вакансий на всех популярных площадках, SMM-продвижение работодателя, привлечение лучших кандидатов</div>
+                </div>
+            </div>
+            <img class="arrow-right" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/arrow-right.png" alt="arrow-right">
+        </div>
+    </div>
+
+    <div class="group-2"><div class="bg-6"></div><p class="text-wrapper-29">Кадровое агентство «Москва» — это:</p><p class="text-wrapper-30">гарантия результата по договору профессиональный подбор сотрудников оптимизация затрат</p></div>
+
+    <!-- БЛОГ -->
+    <div class="view-13">
+        <button class="button-2" id="showMoreBlogBtn"><div class="bg-10"></div><div class="text-wrapper-60">Показать еще</div></button>
+        <div class="element-14 fade-up"><div class="frame-4"></div><div class="text-wrapper-61">Подробнее</div><p class="text-wrapper-62">Для привлечения стороннего персонала эффективно использование. Эти формы найма сотрудников без оформления в штат ....</p><p class="text-wrapper-63">В чем разница аутстаффинга и аутсорсинга</p><img class="img-3" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/img.png"><img class="calendar" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/calendar-1.svg"><div class="text-wrapper-64">28 июля 2020</div></div>
+        <div class="element-15 fade-up"><div class="frame-4"></div><div class="text-wrapper-61">Подробнее</div><p class="text-wrapper-62">Для привлечения стороннего персонала эффективно использование. Эти формы найма сотрудников без оформления в штат ....</p><p class="text-wrapper-63">В чем разница аутстаффинга и аутсорсинга</p><img class="img-3" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/img-1.png"><img class="calendar" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/calendar-1.svg"><div class="text-wrapper-64">28 июля 2020</div></div>
+        <div class="element-16 fade-up"><div class="frame-4"></div><div class="text-wrapper-61">Подробнее</div><p class="text-wrapper-62">Для привлечения стороннего персонала эффективно использование. Эти формы найма сотрудников без оформления в штат ....</p><p class="text-wrapper-63">В чем разница аутстаффинга и аутсорсинга</p><img class="img-3" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/img-2.png"><img class="calendar" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/calendar-1.svg"><div class="text-wrapper-64">28 июля 2020</div></div>
+        <div class="text-wrapper-65">Блог</div>
+    </div>
+
+    <!-- ВАКАНСИИ -->
+    <div class="view-14">
+        <div class="card fade-up"><img class="rectangle-4" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/rectangle-1161.png"><p class="span-wrapper"><span class="text-wrapper-66">заработная плата от 28 000</span></p><div class="text-wrapper-67">Водитель</div><p class="text-wrapper-68">Возможно, ваш опыт позволяет выполнять разные работы. В таком случае ориентируйтесь не только на должность, но и посмотрите требования к соискателям в нескольких вакансиях.</p><button class="button-3"><div class="bg-3"></div><div class="text-wrapper">оставить заявку</div></button></div>
+        <div class="card-2 fade-up"><img class="rectangle-4" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/rectangle-1161-1.png"><p class="span-wrapper"><span class="text-wrapper-66">заработная плата от 28 000</span></p><div class="text-wrapper-69">Сотрудник ресторана</div><p class="text-wrapper-68">Возможно, ваш опыт позволяет выполнять разные работы. В таком случае ориентируйтесь не только на должность, но и посмотрите требования к соискателям в нескольких вакансиях.</p><button class="button-3"><div class="bg-3"></div><div class="text-wrapper">оставить заявку</div></button></div>
+        <div class="card-3 fade-up"><img class="rectangle-4" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/rectangle-1161-2.png"><p class="span-wrapper"><span class="text-wrapper-66">заработная плата от 28 000</span></p><div class="text-wrapper-70">Охраник</div><p class="text-wrapper-68">Возможно, ваш опыт позволяет выполнять разные работы. В таком случае ориентируйтесь не только на должность, но и посмотрите требования к соискателям в нескольких вакансиях.</p><button class="button-3"><div class="bg-3"></div><div class="text-wrapper">оставить заявку</div></button></div>
+        <button class="button-4" id="showMoreVacanciesBtn"><div class="bg-10"></div><div class="text-wrapper-60">Показать еще</div></button>
+        <div class="text-wrapper-71">Вакансии</div>
+    </div>
+
+    <!-- ЭТАПЫ СОТРУДНИЧЕСТВА -->
+    <div class="view-15">
+        <div class="group-5"><div class="text-wrapper-74">Этапы сотрудничества:</div><p class="text-wrapper-75">Начните работать с нами прямо сейчас!</p></div>
+        <div class="point">
+            <div class="element-17 fade-up"><div class="rectangle-6"></div><p class="text-wrapper-76">Заявка на подбор кадров или звонок в агентство</p><button class="button-5" id="stageOrderBtn"><div class="bg-11"></div><div class="text-wrapper-77">Оставить заявку</div></button><div class="text-wrapper-78">01</div></div>
+            <div class="element-18 fade-up"><div class="rectangle-7"></div><div class="text-wrapper-79">Заключение договора</div><div class="text-wrapper-80">02</div></div>
+            <div class="element-18 fade-up"><div class="rectangle-7"></div><p class="text-wrapper-79">Выявление потребности компании, составление требований к кандидату</p><div class="text-wrapper-80">03</div></div>
+            <div class="element-19 fade-up"><div class="rectangle-7"></div><div class="text-wrapper-79">Подбор кандидатов</div><p class="text-wrapper-81">Согласование и выход на работу</p><div class="text-wrapper-80">04</div></div>
+            <div class="element-20 fade-up"><div class="rectangle-7"></div><p class="text-wrapper-79">Замена сотрудника, <br>не вышедшего на работу, — бесплатно</p><div class="text-wrapper-82">Оплата услуг кадрового агентства</div><div class="text-wrapper-80">05</div></div>
+        </div>
+    </div>
+
+    <!-- ФУТЕР -->
+    <div class="view-6">
+        <img class="element-12" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/----------------1-1.svg">
+        <div class="opyright"><div class="bg-7"></div><img class="whats-app" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/whatsapp-1.png"><img class="twitter" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/twitter-1.png"><img class="arrow-3" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/arrow-5.svg"><img class="facebook" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/facebook-1.png"><p class="text-wrapper-31">Кадровое агенство москва|&nbsp;&nbsp;Все права защищены.</p></div>
+        <div class="view-7"><div class="bg-8"></div><input class="input-5" id="subscribeEmail" placeholder="Укажите email..."><div class="text-wrapper-32">Укажите email...</div><img class="send" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/send.svg"><div class="text-wrapper-33">Подпишитесь на наши обновления</div></div>
+        <div class="view-8"><div class="text-wrapper-34">Подробне</div><div class="text-wrapper-35">Миграционное сопровождение</div><div class="text-wrapper-36">Подробне</div><div class="text-wrapper-37">Охрана труда</div><div class="text-wrapper-38">Подробне</div><div class="text-wrapper-39">Аутстаффинг</div><div class="text-wrapper-40">Подробне</div><div class="text-wrapper-41">Аутсорсинг</div></div>
+        <div class="view-9"><div class="text-wrapper-42">Подробне</div><div class="text-wrapper-43">Рекрутинг</div><div class="text-wrapper-44">Подробне</div><div class="text-wrapper-45">Вакансии</div><div class="text-wrapper-46">Подробне</div><div class="text-wrapper-47">Соискателю</div><div class="text-wrapper-48">Подробне</div><div class="text-wrapper-49">Работодателю</div></div>
+        <img class="line" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/line.svg">
+        <div class="info-name-com">kadrovoe_agentstvo38@mail.ru</div><img class="envelope-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/envelope.svg">
+        <div class="text-wrapper-50">+7 (495) 476-36-93</div><div class="text-wrapper-51">+7 (916) 208-57-29</div><img class="phone-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone.svg"><img class="phone-3" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone.svg">
+        <div class="view-10"><div class="text-wrapper-52">Главная</div><div class="text-wrapper-52">О компании</div><div class="text-wrapper-52">Блог</div><div class="text-wrapper-52">Контакты</div></div>
+    </div>
+
+    <!-- ВЕРХНЯЯ НАВИГАЦИЯ -->
+    <div class="view-11">
+        <div class="bg-9"></div>
+        <div class="navbar">
+            <div class="nav-dropdown"><span class="text-wrapper-53 nav-toggle">Услуги ▾</span><div class="nav-submenu"><a href="autorsing.html">Аутсорсинг</a><a href="autstaffing.html">Аутстаффинг</a><a href="rekruting.html">Рекрутинг</a></div></div>
+            <a href="rabotodatelyu.html" class="text-wrapper-54">Работодателю</a>
+            <a href="soiskatelyu.html" class="text-wrapper-54">Соискателю</a>
+            <a href="vakansii.html" class="text-wrapper-54">Вакансии</a>
+            <a href="blog.html" class="text-wrapper-54">Блог</a>
+            <a href="rekruting.html" class="text-wrapper-54">Рекрутинг</a>
+        </div>
+        <div class="group-3"><div class="text-wrapper-55">+7 (495) 476-36-93</div><div class="text-wrapper-56">+7 (916) 208-57-29</div><div class="text-wrapper-57">Заказать звонок</div><img class="phone-icon" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone-icon.svg"><img class="phone-icon-2" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone-icon.svg"></div>
+        <div class="view-12"><a href="o-kompanii.html" class="text-wrapper-58">О компании</a><a href="kontakty.html" class="text-wrapper-58">Контакты</a></div>
+        <img class="element-13" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/----------------1.svg">
+        <div class="location"><img class="location-pin" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/location-pin-1.svg"><p class="text-wrapper-59">Москва ,ул. Кировоградская 9к4 (ТЦ Южный)</p></div>
+    </div>
+</div>
+
+<script>
+    // -------------------- ФОРМА "СВЯЖИТЕСЬ С НАМИ" --------------------
+    const submitBtn = document.getElementById('submitFeedbackBtn');
+    const fioInput = document.getElementById('fioInput');
+    const emailInput = document.getElementById('emailInput');
+    const phoneInput = document.getElementById('phoneInput');
+    const commentInput = document.getElementById('commentInput');
+
+    function showToast(message, isError = false) {
+        const toast = document.createElement('div');
+        toast.className = 'toast-notify' + (isError ? ' error' : '');
+        toast.textContent = message;
+        document.body.appendChild(toast);
+        setTimeout(() => toast.remove(), 3500);
+    }
+
+    function validateAndSend() {
+        let fio = fioInput.value.trim();
+        let email = emailInput.value.trim();
+        let phone = phoneInput.value.trim();
+        let comment = commentInput.value.trim();
+
+        if (!fio) { showToast('Пожалуйста, укажите ФИО', true); return; }
+        if (!email) { showToast('Введите Email', true); return; }
+        const emailPattern = /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/;
+        if (!emailPattern.test(email)) { showToast('Введите корректный email', true); return; }
+        if (!phone) { showToast('Введите номер телефона', true); return; }
+        const digits = phone.replace(/\D/g, '');
+        if (digits.length < 10) { showToast('Телефон должен содержать минимум 10 цифр', true); return; }
+        if (!comment) { showToast('Напишите комментарий', true); return; }
+
+        console.log({ fio, email, phone, comment });
+        showToast('✅ Спасибо! Мы свяжемся с вами в ближайшее время.');
+        fioInput.value = '';
+        emailInput.value = '';
+        phoneInput.value = '';
+        commentInput.value = '';
+    }
+
+    if (submitBtn) submitBtn.addEventListener('click', validateAndSend);
+
+    // -------------------- КАРУСЕЛЬ УСЛУГ --------------------
+    const scrollContainer = document.getElementById('servicesScroll');
+    const leftArrow = document.querySelector('.arrow-left');
+    const rightArrow = document.querySelector('.arrow-right');
+
+    if (scrollContainer && leftArrow && rightArrow) {
+        const scrollStep = 400;
+        leftArrow.addEventListener('click', () => {
+            scrollContainer.scrollBy({ left: -scrollStep, behavior: 'smooth' });
+        });
+        rightArrow.addEventListener('click', () => {
+            scrollContainer.scrollBy({ left: scrollStep, behavior: 'smooth' });
+        });
+    }
+
+    // -------------------- КНОПКА "ОСТАВИТЬ ЗАЯВКУ" В ЭТАПАХ (модальное окно) --------------------
+    const stageBtn = document.getElementById('stageOrderBtn');
+    if (stageBtn) {
+        stageBtn.addEventListener('click', () => {
+            const modal = document.createElement('div');
+            modal.className = 'modal-overlay';
+            modal.innerHTML = `
+                <div class="modal-window">
+                    <h4>Оставить заявку</h4>
+                    <div class="form-row">
+                        <input type="text" id="modalName" placeholder="Ваше имя *" required>
+                    </div>
+                    <div class="form-row">
+                        <input type="tel" id="modalPhone" placeholder="Телефон *" required>
+                    </div>
+                    <div class="form-row">
+                        <textarea id="modalComment" placeholder="Комментарий (необязательно)" rows="3"></textarea>
+                    </div>
+                    <div class="modal-buttons">
+                        <button class="cancel">Отмена</button>
+                        <button class="send">Отправить</button>
+                    </div>
+                </div>
+            `;
+            document.body.appendChild(modal);
+            setTimeout(() => modal.classList.add('active'), 10);
+
+            const cancelBtn = modal.querySelector('.cancel');
+            const sendBtn = modal.querySelector('.send');
+            const modalName = modal.querySelector('#modalName');
+            const modalPhone = modal.querySelector('#modalPhone');
+            const modalComment = modal.querySelector('#modalComment');
+
+            const closeModal = () => {
+                modal.classList.remove('active');
+                setTimeout(() => modal.remove(), 300);
+            };
+
+            cancelBtn.addEventListener('click', closeModal);
+
+            sendBtn.addEventListener('click', () => {
+                let name = modalName.value.trim();
+                let phone = modalPhone.value.trim();
+                let comment = modalComment.value.trim();
+
+                if (!name) { showToast('Введите ваше имя', true); return; }
+                if (!phone) { showToast('Введите номер телефона', true); return; }
+                const digits = phone.replace(/\D/g, '');
+                if (digits.length < 10) { showToast('Введите корректный номер (не менее 10 цифр)', true); return; }
+
+                console.log({ source: 'stage', name, phone, comment });
+                showToast('✅ Заявка отправлена! Мы свяжемся с вами.');
+                closeModal();
+            });
+
+            modal.addEventListener('click', (e) => {
+                if (e.target === modal) closeModal();
+            });
+        });
+    }
+
+    // -------------------- КНОПКИ "ПОКАЗАТЬ ЕЩЕ" -> БЛОГ И ВАКАНСИИ --------------------
+    const blogBtn = document.getElementById('showMoreBlogBtn');
+    const vacanciesBtn = document.getElementById('showMoreVacanciesBtn');
+    if (blogBtn) blogBtn.addEventListener('click', () => { window.location.href = 'blog.html'; });
+    if (vacanciesBtn) vacanciesBtn.addEventListener('click', () => { window.location.href = 'vakansii.html'; });
+
+    // -------------------- РАСКРЫТИЕ ОТВЕТОВ FAQ --------------------
+    const faqItems = document.querySelectorAll('.quest, .long-questr');
+    faqItems.forEach(item => {
+        const answerDiv = item.querySelector('.faq-answer');
+        const arrowImg = item.querySelector('.img, .arrow-2');
+        if (answerDiv) {
+            item.style.cursor = 'pointer';
+            item.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const isOpen = answerDiv.style.display === 'block';
+                document.querySelectorAll('.faq-answer').forEach(ans => { if (ans !== answerDiv) ans.style.display = 'none'; });
+                if (arrowImg) arrowImg.style.transform = isOpen ? 'rotate(0deg)' : 'rotate(180deg)';
+                answerDiv.style.display = isOpen ? 'none' : 'block';
+                if (!isOpen) setTimeout(() => answerDiv.scrollIntoView({ behavior: 'smooth', block: 'nearest' }), 100);
+            });
+        }
+    });
+
+    // -------------------- АНИМАЦИЯ ПРИ СКРОЛЛЕ --------------------
+    const fadeElements = document.querySelectorAll('.fade-up');
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => { if (entry.isIntersecting) { entry.target.classList.add('visible'); observer.unobserve(entry.target); } });
+    }, { threshold: 0.2 });
+    fadeElements.forEach(el => observer.observe(el));
+    setTimeout(() => {
+        fadeElements.forEach(el => { const rect = el.getBoundingClientRect(); if (rect.top < window.innerHeight - 100) el.classList.add('visible'); });
+    }, 200);
+
+    // -------------------- МАСКА ТЕЛЕФОНА --------------------
+    if (phoneInput) {
+        phoneInput.addEventListener('input', (e) => {
+            let value = e.target.value.replace(/\D/g, '');
+            if (value.length > 11) value = value.slice(0, 11);
+            let formatted = '';
+            if (value.length > 0) formatted = '+7';
+            if (value.length > 1) formatted += ' (' + value.substring(1, 4);
+            if (value.length >= 5) formatted += ') ' + value.substring(4, 7);
+            if (value.length >= 8) formatted += '-' + value.substring(7, 9);
+            if (value.length >= 10) formatted += '-' + value.substring(9, 11);
+            e.target.value = formatted;
+        });
+    }
+
+    // -------------------- ПОДПИСКА --------------------
+    const subscribeBtn = document.querySelector('.send');
+    const subscribeEmail = document.getElementById('subscribeEmail');
+    if (subscribeBtn && subscribeEmail) {
+        subscribeBtn.addEventListener('click', () => {
+            const mail = subscribeEmail.value.trim();
+            if (mail && /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(mail)) {
+                showToast('Спасибо за подписку!');
+                subscribeEmail.value = '';
+            } else {
+                showToast('Введите корректный email', true);
+            }
+        });
+    }
+</script>
+</body>
+</html>

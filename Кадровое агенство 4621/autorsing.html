@@ -1,0 +1,1033 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta charset="utf-8" />
+    <title>Аутсорсинг — Кадровое агентство «Москва»</title>
+    <link rel="stylesheet" href="globals.css" />
+    <link rel="stylesheet" href="styleguide.css" />
+    <link rel="stylesheet" href="style.css" />
+    <style>
+      .page {
+        background-color: #ffffff;
+        overflow: hidden;
+        width: 100%;
+        min-width: 1920px;
+        position: relative;
+      }
+      /* HEADER */
+      .header {
+        position: relative;
+        width: 100%;
+        height: 156px;
+        background: #fff;
+      }
+      .header-top {
+        position: absolute;
+        top: 20px;
+        left: 375px;
+        width: 1170px;
+        height: 70px;
+      }
+      .header-logo {
+        position: absolute;
+        top: 10%;
+        left: 0;
+        width: 15.47%;
+        height: 78.57%;
+      }
+      .header-links {
+        display: inline-flex;
+        align-items: center;
+        gap: 30px;
+        position: absolute;
+        top: 20%;
+        left: calc(50% - 364px);
+      }
+      .header-links a {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-blue);
+        font-size: 16px;
+        text-decoration: none;
+      }
+      .header-location {
+        position: absolute;
+        top: 26px;
+        left: 508px;
+        width: 303px;
+        height: 18px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+      }
+      .header-location img { width: 18px; height: 18px; }
+      .header-location span {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-blue);
+        font-size: 12px;
+      }
+      .header-phones {
+        position: absolute;
+        top: 7px;
+        left: 853px;
+        width: 323px;
+        height: 56px;
+      }
+      .header-phones .order-call {
+        position: absolute;
+        top: 20px;
+        left: 0;
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-blue);
+        font-size: 12px;
+        cursor: pointer;
+      }
+      .header-phones .phone-line {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-blue);
+        font-size: 16px;
+      }
+      .header-phones .phone-line:first-of-type { top: 0; left: 56%; }
+      .header-phones .phone-line:last-of-type  { top: 61%; left: 56%; }
+      .header-phones .phone-line img { width: 18px; height: 18px; }
+      .navbar-bar {
+        position: absolute;
+        top: 90px;
+        left: 0;
+        width: 100%;
+        height: 66px;
+        background-color: #f3f4f9;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 70px;
+      }
+      .navbar-bar a {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-black);
+        font-size: 15px;
+        text-decoration: none;
+      }
+      .navbar-bar a.active { color: var(--blue); }
+      /* HERO */
+      .hero {
+        position: relative;
+        width: 100%;
+        height: 380px;
+      }
+      .hero img.hero-bg {
+        position: absolute;
+        top: 0; left: 0;
+        width: 1920px;
+        height: 380px;
+        object-fit: cover;
+      }
+      .hero-content {
+        position: absolute;
+        top: 60px;
+        left: 375px;
+        width: 900px;
+      }
+      .hero-title {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-blue);
+        font-size: 56px;
+        line-height: 1.1;
+        margin: 0 0 18px;
+      }
+      .hero-subtitle {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 18px;
+        line-height: 1.6;
+        margin: 0 0 24px;
+      }
+      .hero-cta {
+        display: inline-flex;
+        align-items: center;
+        gap: 20px;
+      }
+      .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 180px;
+        height: 50px;
+        border: 2px solid var(--txt-blue);
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-blue);
+        font-size: 14px;
+        background: transparent;
+        cursor: pointer;
+        text-decoration: none;
+      }
+      .hero-price {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 700;
+        color: var(--txt-black);
+        font-size: 22px;
+      }
+      .hero-socials {
+        position: absolute;
+        top: 80px;
+        right: 375px;
+        display: flex;
+        flex-direction: column;
+        gap: 18px;
+      }
+      .hero-socials img { width: 32px; height: 32px; cursor: pointer; }
+      /* BREADCRUMB */
+      .breadcrumb {
+        padding: 24px 0 20px;
+        margin-left: 375px;
+        font-family: "Open Sans", Helvetica;
+        font-size: 14px;
+        color: var(--txt-black);
+        opacity: 0.7;
+      }
+      .breadcrumb a { color: var(--txt-blue); text-decoration: none; }
+      .breadcrumb span { margin: 0 6px; }
+      /* INTRO BLOCK */
+      .intro-block {
+        display: flex;
+        align-items: flex-start;
+        gap: 60px;
+        margin: 20px 375px 50px;
+      }
+      .btn-primary {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        min-width: 200px;
+        height: 54px;
+        background-color: var(--txt-blue);
+        border: 2px solid #1169b0;
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 14px;
+        cursor: pointer;
+        text-decoration: none;
+        padding: 0 20px;
+        flex-shrink: 0;
+      }
+      .intro-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        flex: 1;
+      }
+      .intro-list li {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 15px;
+        line-height: 30px;
+        padding-left: 18px;
+        position: relative;
+      }
+      .intro-list li::before {
+        content: "●";
+        color: var(--txt-blue);
+        position: absolute;
+        left: 0;
+        font-size: 10px;
+        top: 9px;
+      }
+      .intro-img {
+        width: 220px;
+        flex-shrink: 0;
+        object-fit: contain;
+      }
+      /* CONTENT SECTIONS */
+      .content-section {
+        margin: 0 375px 50px;
+      }
+      .content-section h2 {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 700;
+        color: var(--txt-black);
+        font-size: 28px;
+        margin: 0 0 18px;
+      }
+      .content-section p {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 15px;
+        line-height: 26px;
+        margin: 0 0 14px;
+      }
+      .content-section ul {
+        margin: 0 0 14px;
+        padding: 0;
+        list-style: none;
+      }
+      .content-section ul li {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 15px;
+        line-height: 28px;
+        padding-left: 20px;
+        position: relative;
+      }
+      .content-section ul li::before {
+        content: "●";
+        color: var(--txt-blue);
+        position: absolute;
+        left: 0;
+        font-size: 10px;
+        top: 8px;
+      }
+      /* DIRECTIONS GRID (4 photo cards) */
+      .directions-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 30px;
+        margin: 24px 0 0;
+      }
+      .direction-card {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 12px;
+      }
+      .direction-card img {
+        width: 100%;
+        height: 220px;
+        object-fit: cover;
+        border-radius: 2px;
+      }
+      .direction-card p {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 14px;
+        text-align: center;
+        margin: 0;
+        opacity: 0.7;
+      }
+      /* LEGAL BOX */
+      .legal-box {
+        background: #f3f4f9;
+        border-left: 4px solid var(--txt-blue);
+        padding: 20px 24px;
+        margin: 16px 0 0;
+        display: flex;
+        align-items: flex-start;
+        gap: 16px;
+      }
+      .legal-box img { width: 28px; height: 28px; flex-shrink: 0; margin-top: 2px; }
+      .legal-box p {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 14px;
+        line-height: 22px;
+        margin: 0;
+      }
+      /* CTA BOX */
+      .cta-box {
+        display: flex;
+        align-items: center;
+        margin: 40px 375px 60px;
+        background: #f3f4f9;
+        border-radius: 4px;
+        overflow: hidden;
+      }
+      .cta-box-img {
+        width: 300px;
+        height: 400px;
+        object-fit: cover;
+        flex-shrink: 0;
+      }
+      .cta-box-body {
+        flex: 1;
+        padding: 40px 60px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 20px;
+      }
+      .cta-box-body h3 {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 700;
+        color: var(--txt-black);
+        font-size: 26px;
+        margin: 0;
+        line-height: 1.3;
+      }
+      .cta-box-phone {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-blue);
+        font-size: 20px;
+      }
+      .cta-box-phone img { width: 20px; height: 20px; }
+      .btn-cta {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 10px;
+        padding: 0 30px;
+        height: 54px;
+        background-color: var(--txt-blue);
+        border: 2px solid #1169b0;
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: #ffffff;
+        font-size: 15px;
+        text-decoration: none;
+        cursor: pointer;
+      }
+      /* FOOTER */
+      .site-footer {
+        background-color: #f3f4f9;
+        width: 100%;
+        padding-top: 50px;
+      }
+      .footer-main {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+        margin: 0 375px;
+        padding-bottom: 40px;
+        border-bottom: 1px solid rgba(84,84,84,0.15);
+      }
+      .footer-logo img { width: 181px; }
+      .footer-nav {
+        display: flex;
+        gap: 80px;
+        padding-top: 10px;
+      }
+      .footer-nav a {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 16px;
+        text-decoration: none;
+      }
+      .footer-contacts {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+      }
+      .footer-contacts .fc-row {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-black);
+        font-size: 18px;
+      }
+      .footer-contacts .fc-row img { width: 20px; height: 20px; }
+      .footer-links {
+        display: flex;
+        gap: 70px;
+        margin: 30px 375px;
+      }
+      .footer-links-col { display: flex; flex-direction: column; gap: 4px; }
+      .footer-links-col a.fl-title {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 600;
+        color: var(--txt-black);
+        font-size: 18px;
+        text-decoration: none;
+      }
+      .footer-links-col a.fl-sub {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 14px;
+        opacity: 0.7;
+        text-decoration: none;
+      }
+      .footer-subscribe {
+        background: rgba(84,84,84,0.05);
+        border-radius: 15px;
+        margin: 20px 375px 0;
+        padding: 28px 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .footer-subscribe h3 {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 700;
+        color: var(--txt-black);
+        font-size: 26px;
+        margin: 0;
+      }
+      .footer-sub-input {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: rgba(255,255,255,0.2);
+        border: 1.5px solid rgba(84,84,84,0.2);
+        border-radius: 10px;
+        padding: 10px 16px;
+        width: 380px;
+      }
+      .footer-sub-input input {
+        border: none;
+        background: transparent;
+        outline: none;
+        font-family: "Open Sans", Helvetica;
+        font-size: 14px;
+        color: var(--txt-black);
+        flex: 1;
+      }
+      .footer-sub-input img { width: 30px; height: 30px; cursor: pointer; }
+      .footer-copyright {
+        background: rgba(84,84,84,0.05);
+        backdrop-filter: blur(3.5px);
+        margin-top: 20px;
+        padding: 16px 375px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+      .footer-copyright p {
+        font-family: "Open Sans", Helvetica;
+        font-weight: 400;
+        color: var(--txt-black);
+        font-size: 14px;
+        opacity: 0.7;
+        margin: 0;
+      }
+      .footer-social-icons { display: flex; align-items: center; gap: 16px; }
+      .footer-social-icons img { width: 36px; height: 36px; cursor: pointer; }
+
+      /* ===== ДОПОЛНИТЕЛЬНЫЕ СТИЛИ ДЛЯ АНИМАЦИЙ И МОДАЛЬНОГО ОКНА ===== */
+      .fade-up {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: opacity 0.7s cubic-bezier(0.2, 0.9, 0.4, 1.1), transform 0.7s ease;
+      }
+      .fade-up.visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      .toast-notify {
+        position: fixed;
+        bottom: 30px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: #2c7a4d;
+        color: white;
+        padding: 14px 28px;
+        border-radius: 50px;
+        font-weight: 600;
+        font-size: 15px;
+        z-index: 10000;
+        box-shadow: 0 8px 20px rgba(0,0,0,0.2);
+        animation: slideUp 0.3s ease;
+        font-family: 'Open Sans', Helvetica;
+      }
+      .toast-notify.error {
+        background: #c0392b;
+      }
+      @keyframes slideUp {
+        0% { opacity: 0; transform: translateX(-50%) translateY(20px); }
+        100% { opacity: 1; transform: translateX(-50%) translateY(0); }
+      }
+      .modal-overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.5);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        z-index: 10001;
+        opacity: 0;
+        visibility: hidden;
+        transition: all 0.3s ease;
+      }
+      .modal-overlay.active {
+        opacity: 1;
+        visibility: visible;
+      }
+      .modal-window {
+        background: #fff;
+        border-radius: 16px;
+        width: 90%;
+        max-width: 480px;
+        padding: 30px;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+        transform: scale(0.9);
+        transition: transform 0.2s ease;
+      }
+      .modal-overlay.active .modal-window {
+        transform: scale(1);
+      }
+      .modal-window h4 {
+        font-family: 'Open Sans', Helvetica;
+        font-weight: 700;
+        font-size: 24px;
+        color: #1169b0;
+        margin-bottom: 20px;
+        text-align: center;
+      }
+      .form-row {
+        margin-bottom: 20px;
+      }
+      .form-row input,
+      .form-row textarea {
+        width: 100%;
+        padding: 12px 14px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        font-family: 'Open Sans', Helvetica;
+        font-size: 14px;
+      }
+      .form-row input:focus,
+      .form-row textarea:focus {
+        outline: none;
+        border-color: #1169b0;
+        box-shadow: 0 0 0 3px rgba(17,105,176,0.1);
+      }
+      .modal-buttons {
+        display: flex;
+        justify-content: flex-end;
+        gap: 12px;
+        margin-top: 20px;
+      }
+      .modal-buttons button {
+        padding: 10px 20px;
+        border: none;
+        border-radius: 8px;
+        font-family: 'Open Sans', Helvetica;
+        font-weight: 600;
+        cursor: pointer;
+      }
+      .modal-buttons .cancel {
+        background: #e0e0e0;
+        color: #333;
+      }
+      .modal-buttons .send {
+        background: #1169b0;
+        color: #fff;
+      }
+      @media (max-width: 768px) {
+        .toast-notify { width: 90%; text-align: center; }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="page">
+
+      <!-- HEADER -->
+      <div class="header">
+        <div class="header-top">
+          <img class="header-logo" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/----------------1.svg" alt="Логотип" />
+          <div class="header-links">
+            <a href="#">О компании</a>
+            <a href="#">Контакты</a>
+          </div>
+          <div class="header-location">
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/location-pin-1.svg" alt="" />
+            <span>Москва ,ул. Кировоградская 9к4 (ТЦ Южный)</span>
+          </div>
+          <div class="header-phones">
+            <span class="order-call">Заказать звонок</span>
+            <div class="phone-line">
+              <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone-icon.svg" alt="" />
+              +7 (495) 476-36-93
+            </div>
+            <div class="phone-line">
+              <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone-icon.svg" alt="" />
+              +7 (916) 208-57-29
+            </div>
+          </div>
+        </div>
+        <div class="navbar-bar">
+          <a href="index.html">Услуги</a>
+          <a href="rabotodatelyu.html">Работодателю</a>
+          <a href="soiskatelyu.html">Соискателю</a>
+          <a href="vakansii.html">Вакансии</a>
+          <a href="blog.html">Блог</a>
+          <a href="rekruting.html">Рекрутинг</a>
+        </div>
+      </div>
+
+      <!-- HERO -->
+      <div class="hero">
+        <img class="hero-bg" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/bg-img.png" alt="" />
+        <div class="hero-content">
+          <h1 class="hero-title">Аутсорсинг</h1>
+          <p class="hero-subtitle">Аутсорсинг персонала — это привлечение внештатных сотрудников, решающее проблему нехватки кадров, в основном линейного персонала (мерчандайзеры, сезонные, приходящие и др.)</p>
+          <div class="hero-cta">
+            <a href="#" class="btn-outline">Аутсорсинг</a>
+            <span class="hero-price">~ от 2 500 ₽</span>
+          </div>
+        </div>
+        <div class="hero-socials">
+          <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/facebook-1.png" alt="Facebook" />
+          <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/twitter-1.png" alt="Twitter" />
+          <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/whatsapp-1.png" alt="WhatsApp" />
+        </div>
+      </div>
+
+      <!-- BREADCRUMB -->
+      <div class="breadcrumb">
+        <a href="index.html">Главная</a>
+        <span>/</span>
+        Аутсорсинг
+      </div>
+
+      <!-- INTRO -->
+      <div class="intro-block">
+        <a href="#" class="btn-primary">Оставить заявку</a>
+        <div style="flex:1;">
+          <strong style="font-family:'Open Sans',Helvetica;font-size:18px;color:var(--txt-black);display:block;margin-bottom:12px;">Этапы сотрудничества:</strong>
+          <ul class="intro-list">
+            <li>Заявка на подбор персонала в агентство;</li>
+            <li>Заключение договора;</li>
+            <li>Выявление потребности, составление требований к кандидату;</li>
+            <li>Подбор кадров;</li>
+            <li>Согласование выхода на работу;</li>
+            <li>Замена сотрудника, не вышедшего на работу, — бесплатно;</li>
+            <li>Оплата услуг кадрового агентства.</li>
+          </ul>
+        </div>
+        <img class="intro-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/image-2.png" alt="" />
+      </div>
+
+      <!-- TEXT BLOCK -->
+      <div class="content-section">
+        <p>Таким образом наличие временного персонала на пике нагрузки, на время отпусков или в период сезонного увеличения продаж позволяет оставаться в рамках трудового законодательства, кроме того значительно упростить процесс «аутсорсинга» (в трезвой оценке, наём персонала без такого рода ответственности) — это и есть цель «аутсорсинга» компании.</p>
+        <p>Аутсорсинг применяется для обеспечения специализированных услуг вне штата/за рамками. Аутсорсинг «даёт» позиций, кроме того значимость — создать базу отраслей для сотрудников, которых не хотите держать в штате. Также в прочих задачах вы — тоже так, если надо, можно взять исполнителей в аренду.</p>
+        <p>Аутсорсинг отличается от аутстаффинга тем, что аутсорсинг персонала — это про задачи. Вы нанимаете специалиста нет на себя, а в рамках задачи. Но в результате экономии значительного времени вам нет нужды осуществлять трудовое устройство в Россию и важен ли это Аутсорсинг — вы заплатите один раз за реальных специалистов в нужной области, а не переплатите.</p>
+      </div>
+
+      <!-- ВОЗМОЖНОСТИ -->
+      <div class="content-section">
+        <h2>Какие возможности дает аутсорсинг?</h2>
+        <ul>
+          <li>Передать расходы на содержание кадров, ведение архива и бухгалтерии;</li>
+          <li>Выгрузить персонал в часть компетенций «на сторону»;</li>
+          <li>Уменьшить ручной работы;</li>
+          <li>Концентрировать силы на базовых задачах: создавать продукты, обращаться и не тратить время на офисный персонал;</li>
+          <li>Свободнее следить за бизнес-процессами организации;</li>
+          <li>Нет проблем с «разными» сотрудниками, если они переходят, это у «них» сложность;</li>
+          <li>Сэкономить на налогах в отличие сотрудника.</li>
+        </ul>
+        <p>Простой пример: технические задачи как реклама отдать услуги в аутсорсинг позволяет сразу же думать о бизнесе. Например, вы хотите купить бухгалтерию. Чтобы нанять специалиста — мало, это не те задачи, на которых бизнес концентрирует рекомендации.</p>
+        <p>Аутсорсинг с учётом расширения до общей персонализации (или обратно — в его понятие) уже по сути, что это отличает аутсорсинг от аутстаффинга (привлечение стороннего персонала), однако, важно понять что именно для вас между ними отличие. Например, новая схема работ по организации таких грузчиков, уборщиков и помощников, тех кто не зависит.</p>
+      </div>
+
+      <!-- НАПРАВЛЕНИЯ -->
+      <div class="content-section">
+        <h2>В каких направлениях используется услуга аутсорсинга персонала?</h2>
+        <div class="directions-grid">
+          <div class="direction-card">
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/rectangle-1161.png" alt="Торговля" />
+            <p>торговый персонал, кассиры, мерчандайзеры, грузчики, кладовщики и т.д.</p>
+          </div>
+          <div class="direction-card">
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/rectangle-1161-1.png" alt="Рестораны" />
+            <p>ресторанный и ресторанный бизнес: повара, официанты, мойщики посуды и т.д.</p>
+          </div>
+          <div class="direction-card">
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/rectangle-1161-2.png" alt="Производство" />
+            <p>Рабочие на склад, инструкции, грузчики, сборщики, упаковщики и т.д.</p>
+          </div>
+          <div class="direction-card">
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/rectangle-1161.png" alt="Офис" />
+            <p>стихийные офисные, водители, уборщики, курьеры, администраторы и т.д.</p>
+          </div>
+        </div>
+      </div>
+
+      <!-- ОТЛИЧИЕ -->
+      <div class="content-section">
+        <h2>В чем отличие аутсорсинга и аутстаффинга?</h2>
+        <p>Если говорить про труд персонала и о том, если в оба. Вы в клиентском бизнесе находите из этих двух видов видов, исходя из ваших задач, системы базы тех-же «Задача с поросшить» Когда именно работает — эта форма труда персонала является более выгодным и т.д.</p>
+        <p>Аутсорсинг разница с учётом экономить услугу либо персонала — это задачи, требования, следствие с специализацией, бизнес-то, например, то только кому-то нанять скоростной подход к сотрудников. Это кто-то будет рассматривать эти конкретные задачи. Другие будут выполнены на следующем опыте.</p>
+        <p>На аутстаффинг (другие формы найма), как правило, оба вида уйдут на предприятия, такие как, например, охраняй или уборщиков. Их так же будут выполнять задачи т.е. лучше.</p>
+      </div>
+
+      <!-- ЮРИДИЧЕСКОЕ ОБОСНОВАНИЕ -->
+      <div class="content-section">
+        <h2>Юридическое обоснование</h2>
+        <div class="legal-box">
+          <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/question.svg" alt="" />
+          <p>Аут-сорсинг приравнивается к заключению договора на оказание услуг компанией с оплатой всех 20 НДФЛ по отсутствию нелегальных обязательств по задачам иных специалистов услуг, а «законно» — поэтому не нарушен. Аутсорсинг — это менее распространённый документ, но финансов и даже применяют без отчислений в Москве. Методика — наиболее выгодная услуга отчета по России.</p>
+        </div>
+      </div>
+
+      <!-- CTA BOX -->
+      <div class="cta-box">
+        <img class="cta-box-img" src="https://c.animaapp.com/mn1mkhwteuSOIP/img/2.png" alt="" />
+        <div class="cta-box-body">
+          <h3>Рассчитать стоимость услуги аутсорсинга</h3>
+          <div class="cta-box-phone">
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone.svg" alt="" />
+            8 (999) 123 45 67
+          </div>
+          <a href="#" class="btn-cta">Записаться →</a>
+        </div>
+      </div>
+
+      <!-- FOOTER -->
+      <footer class="site-footer">
+        <div class="footer-main">
+          <div class="footer-logo">
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/----------------1-1.svg" alt="Логотип" />
+          </div>
+          <div class="footer-nav">
+            <a href="index.html">Главная</a>
+            <a href="o-kompanii.html">О компании</a>
+            <a href="blog.html">Блог</a>
+            <a href="kontakty.html">Контакты</a>
+          </div>
+          <div class="footer-contacts">
+            <div class="fc-row">
+              <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone.svg" alt="" />
+              +7 (495) 476-36-93
+            </div>
+            <div class="fc-row">
+              <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/phone.svg" alt="" />
+              +7 (916) 208-57-29
+            </div>
+            <div class="fc-row">
+              <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/envelope.svg" alt="" />
+              kadrovoe_agentstvo38@mail.ru
+            </div>
+          </div>
+        </div>
+        <div class="footer-links">
+          <div class="footer-links-col">
+            <a href="autorsing.html" class="fl-title">Аутсорсинг</a>
+            <a href="autorsing.html" class="fl-sub">Подробне</a>
+          </div>
+          <div class="footer-links-col">
+            <a href="autstaffing.html" class="fl-title">Аутстаффинг</a>
+            <a href="#" class="fl-sub">Подробнее</a>
+          </div>
+          <div class="footer-links-col">
+            <a href="#" class="fl-title">Охрана труда</a>
+            <a href="#" class="fl-sub">Подробне</a>
+          </div>
+          <div class="footer-links-col">
+            <a href="#" class="fl-title">Миграционное сопровождение</a>
+            <a href="#" class="fl-sub">Подробнее</a>
+          </div>
+          <div class="footer-links-col">
+            <a href="rabotodatelyu.html" class="fl-title">Работодателю</a>
+            <a href="rabotodatelyu.html" class="fl-sub">Подробне</a>
+          </div>
+          <div class="footer-links-col">
+            <a href="soiskatelyu.html" class="fl-title">Соискателю</a>
+            <a href="soiskatelyu.html" class="fl-sub">Подробне</a>
+          </div>
+          <div class="footer-links-col">
+            <a href="vakansii.html" class="fl-title">Вакансии</a>
+            <a href="vakansii.html" class="fl-sub">Подробне</a>
+          </div>
+          <div class="footer-links-col">
+            <a href="rekruting.html" class="fl-title">Рекрутинг</a>
+            <a href="rekruting.html" class="fl-sub">Подробне</a>
+          </div>
+        </div>
+        <div class="footer-subscribe">
+          <h3>Подпишитесь на наши обновления</h3>
+          <div class="footer-sub-input">
+            <input type="email" id="subscribeEmail" placeholder="Укажите email..." />
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/send.svg" alt="Отправить" id="subscribeBtn" />
+          </div>
+        </div>
+        <div class="footer-copyright">
+          <p>Кадровое агенство москва&nbsp;|&nbsp;&nbsp;Все права защищены.</p>
+          <div class="footer-social-icons">
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/facebook-1.png" alt="Facebook" />
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/twitter-1.png" alt="Twitter" />
+            <img src="https://c.animaapp.com/mn1mkhwteuSOIP/img/whatsapp-1.png" alt="WhatsApp" />
+          </div>
+        </div>
+      </footer>
+
+    </div>
+
+    <script>
+      (function() {
+        // ---------- ОБЩИЕ ФУНКЦИИ ----------
+        function showToast(msg, isErr = false) {
+          const toast = document.createElement('div');
+          toast.className = 'toast-notify' + (isErr ? ' error' : '');
+          toast.textContent = msg;
+          document.body.appendChild(toast);
+          setTimeout(() => toast.remove(), 3500);
+        }
+
+        function applyPhoneMask(input) {
+          input.addEventListener('input', function(e) {
+            let v = e.target.value.replace(/\D/g, '');
+            if (v.length > 11) v = v.slice(0, 11);
+            let f = '';
+            if (v.length > 0) f = '+7';
+            if (v.length > 1) f += ' (' + v.substring(1, 4);
+            if (v.length >= 5) f += ') ' + v.substring(4, 7);
+            if (v.length >= 8) f += '-' + v.substring(7, 9);
+            if (v.length >= 10) f += '-' + v.substring(9, 11);
+            e.target.value = f;
+          });
+        }
+
+        function openModal(title, submitCallback) {
+          const modal = document.createElement('div');
+          modal.className = 'modal-overlay';
+          modal.innerHTML = `
+            <div class="modal-window">
+              <h4>${title}</h4>
+              <div class="form-row"><input type="text" id="modalName" placeholder="Ваше имя *"></div>
+              <div class="form-row"><input type="tel" id="modalPhone" placeholder="+7 (___) ___-__-__"></div>
+              <div class="form-row"><textarea id="modalComment" placeholder="Комментарий (необязательно)" rows="3"></textarea></div>
+              <div class="modal-buttons"><button class="cancel">Отмена</button><button class="send">Отправить</button></div>
+            </div>
+          `;
+          document.body.appendChild(modal);
+          setTimeout(() => modal.classList.add('active'), 10);
+          const phoneInput = modal.querySelector('#modalPhone');
+          if (phoneInput) applyPhoneMask(phoneInput);
+          modal.querySelector('.cancel').addEventListener('click', () => {
+            modal.classList.remove('active');
+            setTimeout(() => modal.remove(), 300);
+          });
+          modal.querySelector('.send').addEventListener('click', () => {
+            const name = modal.querySelector('#modalName').value.trim();
+            const phone = modal.querySelector('#modalPhone').value.trim();
+            const comment = modal.querySelector('#modalComment').value.trim();
+            if (!name) return showToast('Введите имя', true);
+            if (!phone) return showToast('Введите телефон', true);
+            const digits = phone.replace(/\D/g, '');
+            if (digits.length < 10) return showToast('Введите корректный номер', true);
+            if (submitCallback) submitCallback({ name, phone, comment });
+            showToast('✅ Заявка отправлена!');
+            modal.classList.remove('active');
+            setTimeout(() => modal.remove(), 300);
+          });
+          modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+              modal.classList.remove('active');
+              setTimeout(() => modal.remove(), 300);
+            }
+          });
+        }
+
+        // ---------- ОБРАБОТЧИКИ ДЛЯ КНОПОК ----------
+        // Заказать звонок
+        const orderCall = document.querySelector('.order-call');
+        if (orderCall) {
+          orderCall.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('Заказать звонок', (data) => {
+              console.log('Заказ звонка:', data);
+            });
+          });
+        }
+
+        // Оставить заявку (кнопка .btn-primary в intro-block)
+        const requestBtn = document.querySelector('.intro-block .btn-primary');
+        if (requestBtn) {
+          requestBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('Оставить заявку', (data) => {
+              console.log('Заявка на аутсорсинг:', data);
+            });
+          });
+        }
+
+        // Кнопка "Записаться" в CTA-блоке
+        const ctaBtn = document.querySelector('.btn-cta');
+        if (ctaBtn) {
+          ctaBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('Рассчитать стоимость', (data) => {
+              console.log('Расчет стоимости:', data);
+            });
+          });
+        }
+
+        // Кнопка "Аутсорсинг" в hero (btn-outline) — тоже можно открыть форму
+        const heroBtn = document.querySelector('.btn-outline');
+        if (heroBtn) {
+          heroBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            openModal('Услуга аутсорсинга', (data) => {
+              console.log('Запрос по кнопке hero:', data);
+            });
+          });
+        }
+
+        // ---------- ПОДПИСКА ----------
+        const subBtn = document.getElementById('subscribeBtn');
+        const subEmail = document.getElementById('subscribeEmail');
+        if (subBtn && subEmail) {
+          subBtn.addEventListener('click', () => {
+            const email = subEmail.value.trim();
+            if (email && /^[^\s@]+@([^\s@]+\.)+[^\s@]+$/.test(email)) {
+              showToast('Спасибо за подписку!');
+              subEmail.value = '';
+            } else {
+              showToast('Введите корректный email', true);
+            }
+          });
+        }
+
+        // ---------- АНИМАЦИЯ ПРИ СКРОЛЛЕ (fade-up) ----------
+        // Добавляем класс fade-up всем блокам, которые хотим анимировать
+        const elementsToAnimate = [
+          '.hero', '.breadcrumb', '.intro-block', '.content-section', 
+          '.directions-grid', '.legal-box', '.cta-box'
+        ];
+        const animatedItems = document.querySelectorAll(elementsToAnimate.join(','));
+        animatedItems.forEach(el => {
+          if (!el.classList.contains('fade-up')) el.classList.add('fade-up');
+        });
+        // Также анимируем отдельные карточки в сетке направлений
+        document.querySelectorAll('.direction-card').forEach(card => {
+          if (!card.classList.contains('fade-up')) card.classList.add('fade-up');
+        });
+
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('visible');
+              observer.unobserve(entry.target);
+            }
+          });
+        }, { threshold: 0.2 });
+        document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+        // Немедленная проверка для уже видимых элементов
+        setTimeout(() => {
+          document.querySelectorAll('.fade-up').forEach(el => {
+            const rect = el.getBoundingClientRect();
+            if (rect.top < window.innerHeight - 100) el.classList.add('visible');
+          });
+        }, 100);
+      })();
+    </script>
+  </body>
+</html>
